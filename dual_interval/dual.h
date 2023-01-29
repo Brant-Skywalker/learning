@@ -12,6 +12,7 @@ public:
 
 public:
     Dual() = default;
+    explicit Dual(double real);
     explicit Dual(double real, double dual);
     virtual ~Dual() = default;
 
@@ -21,6 +22,9 @@ public:
 
     bool operator<(const Dual& rhs) const;
     bool operator>(const Dual& rhs) const;
+
+    explicit operator double() const;
+
     friend std::ostream& operator<<(std::ostream& os, const Dual& dual);
 };
 

@@ -1,5 +1,6 @@
 #include "dual.h"
 
+Dual::Dual(double real) : real_(real) {}
 Dual::Dual(double real, double dual) : real_(real), dual_(dual) {}
 
 /*!
@@ -42,6 +43,10 @@ bool Dual::operator<(const Dual& rhs) const {
 
 bool Dual::operator>(const Dual& rhs) const {
     return real_ > rhs.real_;
+}
+
+Dual::operator double() const {
+    return real_;
 }
 
 /*!
