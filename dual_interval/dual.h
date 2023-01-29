@@ -7,17 +7,20 @@
 
 class Dual {
 public:
-    double _real{};
-    double _dual{};
+    double real_{};
+    double dual_{};
 
 public:
-    Dual() = delete;
+    Dual() = default;
     explicit Dual(double real, double dual);
     virtual ~Dual() = default;
 
     Dual operator+(const Dual& rhs) const;
     Dual operator-(const Dual& rhs) const;
     Dual operator*(const Dual& rhs) const;
+
+    bool operator<(const Dual& rhs) const;
+    bool operator>(const Dual& rhs) const;
     friend std::ostream& operator<<(std::ostream& os, const Dual& dual);
 };
 

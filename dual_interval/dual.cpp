@@ -1,6 +1,6 @@
 #include "dual.h"
 
-Dual::Dual(double real, double dual) : _real(real), _dual(dual) {}
+Dual::Dual(double real, double dual) : real_(real), dual_(dual) {}
 
 /*!
  * @brief (u + v)' = u' + v'
@@ -8,7 +8,7 @@ Dual::Dual(double real, double dual) : _real(real), _dual(dual) {}
  * @return a resulting Dual object.
  */
 Dual Dual::operator+(const Dual& rhs) const {
-    return Dual(_real + rhs._real, _dual + rhs._dual);
+    return Dual(real_ + rhs.real_, dual_ + rhs.dual_);
 }
 
 /*!
@@ -17,7 +17,7 @@ Dual Dual::operator+(const Dual& rhs) const {
  * @return a resulting Dual object.
  */
 Dual Dual::operator-(const Dual& rhs) const {
-    return Dual(_real - rhs._real, _dual - rhs._dual);
+    return Dual(real_ - rhs.real_, dual_ - rhs.dual_);
 }
 
 /*!
@@ -26,12 +26,22 @@ Dual Dual::operator-(const Dual& rhs) const {
  * @return a resulting Dual object.
  */
 Dual Dual::operator*(const Dual& rhs) const {
-    return Dual(_real * rhs._real, _real * rhs._dual + _dual * rhs._real);
+    return Dual(real_ * rhs.real_, real_ * rhs.dual_ + dual_ * rhs.real_);
 }
 
 std::ostream& operator<<(std::ostream& os, const Dual& dual) {
-    os << "_real: " << std::setw(10) << dual._real << std::setw(10) << " _dual: " << std::setw(10) << dual._dual;
+    os << std::setw(10) << std::right << "real_: " << std::setw(10) << std::right << dual.real_ << std::setw(10)
+       << " dual_: " << std::setw(10)
+       << std::right << dual.dual_;
     return os;
+}
+
+bool Dual::operator<(const Dual& rhs) const {
+    return real_ < rhs.real_;
+}
+
+bool Dual::operator>(const Dual& rhs) const {
+    return real_ > rhs.real_;
 }
 
 /*!
@@ -40,7 +50,7 @@ std::ostream& operator<<(std::ostream& os, const Dual& dual) {
  * @return a resulting Dual object.
  */
 Dual sin(const Dual& dual) {
-    return Dual(std::sin(dual._real), std::cos(dual._real) * dual._dual);
+    return Dual(std::sin(dual.real_), std::cos(dual.real_) * dual.dual_);
 }
 
 /*!
@@ -49,7 +59,7 @@ Dual sin(const Dual& dual) {
  * @return a resulting Dual object.
  */
 Dual cos(const Dual& dual) {
-    return Dual(std::cos(dual._real), -std::sin(dual._real) * dual._dual);
+    return Dual(std::cos(dual.real_), -std::sin(dual.real_) * dual.dual_);
 }
 
 /*!
@@ -58,5 +68,5 @@ Dual cos(const Dual& dual) {
  * @return a resulting Dual object.
  */
 Dual exp(const Dual& dual) {
-    return Dual(std::exp(dual._real), std::exp(dual._real) * dual._dual);
+    return Dual(std::exp(dual.real_), std::exp(dual.real_) * dual.dual_);
 }
