@@ -12,6 +12,7 @@ int main() {
     std::cout << d1 - d2 << std::endl;
     std::cout << d1 * d2 << std::endl;
     std::cout << sin(d1) << std::endl;
+    std::cout << cos(d1) << std::endl;
     std::cout << exp(d1) << std::endl;
 
     return 0;

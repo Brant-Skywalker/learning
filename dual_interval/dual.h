@@ -22,6 +22,7 @@ public:
 };
 
 Dual sin(const Dual& dual);
+Dual cos(const Dual& dual);
 Dual exp(const Dual& dual);
 
 #endif //DUAL_INTERVAL__DUAL_H_

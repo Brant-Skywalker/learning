@@ -44,6 +44,15 @@ Dual sin(const Dual& dual) {
 }
 
 /*!
+ * @brief (cos(x))' = -sin(x) * x'
+ * @param dual is the Dual object to be cosine'd.
+ * @return a resulting Dual object.
+ */
+Dual cos(const Dual& dual) {
+    return Dual(std::cos(dual._real), -std::sin(dual._real) * dual._dual);
+}
+
+/*!
  * @brief (exp(x))' = exp(x) * x'
  * @param dual is the Dual object to be sine'd.
  * @return a resulting Dual object.
