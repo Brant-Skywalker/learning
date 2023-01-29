@@ -7,4 +7,6 @@ add_executable(dual_interval
         main.cpp
         dual.h
         dual.cpp
+        interval.h
+        interval.cpp
         )
