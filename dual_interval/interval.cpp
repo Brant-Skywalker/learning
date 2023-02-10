@@ -22,9 +22,9 @@ Interval<T> Interval<T>::operator-(const Interval& rhs) const {
 
 template<typename U>
 std::ostream& operator<<(std::ostream& os, const Interval<U>& interval) {
-    os << std::setw(10) << std::right << "lo_: {" << std::setw(10) << std::right << interval.lo_ << std::setw(10)
-       << "  }  hi_: {" << std::setw(10)
-       << std::right << interval.hi_ << "  }";
+    os << std::setw(10) << std::right << "lo_: " << std::setw(10) << std::right << interval.lo_ << std::setw(10)
+       << " hi_: " << std::setw(10)
+       << std::right << interval.hi_;
     return os;
 }
 
@@ -95,6 +95,55 @@ Interval<T> sin(const Interval<T>& interval) {
             return Interval{T{-1}, T{sin(interval.hi_)}};
         }
         return Interval{T{-1}, T{sin(interval.lo_)}};
+    }
+
+    return Interval{T{-1}, T{1}};
+}
+
+/*!
+ * @brief Reference: https://github.com/JuliaIntervals/IntervalArithmetic.jl/blob/master/src/intervals/trigonometric.jl
+ */
+template<typename T>
+Interval<T> cos(const Interval<T>& interval) {
+    using std::cos;
+
+    if (2 * M_PI < (double) (interval.hi_ - interval.lo_)) {
+        return Interval{T{-1}, T{1}};
+    }
+
+    int lo_quad = quad((double) interval.lo_);
+    int hi_quad = quad((double) interval.hi_);
+
+    if (lo_quad == hi_quad) {
+        if (M_PI < (double) (interval.hi_ - interval.lo_)) {
+            return Interval{T{-1}, T{1}};
+        }
+        if (2 == lo_quad || 3 == lo_quad) {  // Positive slope.
+            return Interval{T{cos(interval.lo_)}, T{cos(interval.hi_)}};
+        }
+        return Interval{T{cos(interval.hi_)}, T{cos(interval.lo_)}};
+    }
+
+    if (2 == lo_quad && 3 == hi_quad) {
+        return Interval{T{cos(interval.lo_)}, T{cos(interval.hi_)}};
+    }
+
+    if (0 == lo_quad && 1 == hi_quad) {  // Negative slope.
+        return Interval{T{cos(interval.hi_)}, T{cos(interval.lo_)}};
+    }
+
+    if ((2 == lo_quad || 3 == lo_quad) && (0 == hi_quad || 1 == hi_quad)) {
+        if (cos(interval.lo_) < cos(interval.hi_)) {
+            return Interval{T{cos(interval.lo_)}, T{1}};
+        }
+        return Interval{T{cos(interval.hi_)}, T{1}};
+    }
+
+    if ((0 == lo_quad || 1 == lo_quad) && (2 == hi_quad || 3 == hi_quad)) {
+        if (cos(interval.lo_) < cos(interval.hi_)) {
+            return Interval{T{-1}, T{cos(interval.hi_)}};
+        }
+        return Interval{T{-1}, T{cos(interval.lo_)}};
     }
 
     return Interval{T{-1}, T{1}};

@@ -31,6 +31,9 @@ template<typename T>
 Interval<T> sin(const Interval<T>& interval);
 
 template<typename T>
+Interval<T> cos(const Interval<T>& interval);
+
+template<typename T>
 Interval<T> exp(const Interval<T>& interval);
 
 #endif //DUAL_INTERVAL__INTERVAL_H_

@@ -5,15 +5,15 @@
 #include <iomanip>
 #include <cmath>
 
+template<typename T>
 class Dual {
 public:
-    double real_{};
-    double dual_{};
+    T real_{};
+    T dual_{};
 
 public:
     Dual() = default;
-    explicit Dual(double real);
-    explicit Dual(double real, double dual);
+    explicit Dual(const T& real, const T& dual);
     virtual ~Dual() = default;
 
     Dual operator+(const Dual& rhs) const;
@@ -23,13 +23,17 @@ public:
     bool operator<(const Dual& rhs) const;
     bool operator>(const Dual& rhs) const;
 
-    explicit operator double() const;
-
-    friend std::ostream& operator<<(std::ostream& os, const Dual& dual);
+    template<typename U>
+    friend std::ostream& operator<<(std::ostream& os, const Dual<U>& dual);
 };
 
-Dual sin(const Dual& dual);
-Dual cos(const Dual& dual);
-Dual exp(const Dual& dual);
+template<typename T>
+Dual<T> sin(const Dual<T>& dual);
+
+template<typename T>
+Dual<T> cos(const Dual<T>& dual);
+
+template<typename T>
+Dual<T> exp(const Dual<T>& dual);
 
 #endif //DUAL_INTERVAL__DUAL_H_
