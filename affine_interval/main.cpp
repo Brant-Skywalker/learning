@@ -43,7 +43,7 @@ int main() {
 
     std::cout << std::endl;
     std::cout << "Zonotope<double> z2 <-- z1 (Zonotope<double>)" << std::endl;
-    std::cout << z1 << std::endl;
+    std::cout << z2 << std::endl;
 
     return 0;
 }
