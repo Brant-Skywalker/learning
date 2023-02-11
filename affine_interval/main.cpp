@@ -78,5 +78,20 @@ int main() {
     std::cout << "Zonotope<double> 3. * z4" << std::endl;
     std::cout << 4. * z4 << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "Zonotope<double> z4.getRad() ==> " << z4.getRad() << std::endl;
+
+    Zonotope<double> z5{1., {{1, 2.}, {2, 3.}}};
+
+    std::cout << std::endl;
+    std::cout << "Zonotope<double> z5 * z5" << std::endl;
+    std::cout << z5 * z5 << std::endl;
+
+    Zonotope<double> z6{Interval<double>{1, 5}};
+
+    std::cout << std::endl;
+    std::cout << "Zonotope<double> z6" << std::endl;
+    std::cout << z6 << std::endl;  // Subscript should be 4.
+
     return 0;
 }

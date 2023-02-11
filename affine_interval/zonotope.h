@@ -22,10 +22,13 @@ public:
     explicit Zonotope(const T& x0, const std::unordered_map<int, T>& xi);
     virtual ~Zonotope() = default;
 
-    Interval<T> getInterval();
+    Interval<T> getInterval() const;
+    T getRad() const;
     Zonotope operator+(const Zonotope& rhs) const;
-    Zonotope operator*(const T& rhs) const;
+    Zonotope operator*(const Zonotope& rhs) const;
 
+    // Scaling.
+    Zonotope operator*(const T& rhs) const;
     template<typename U>
     friend Zonotope<U> operator*(const U& lhs, const Zonotope<U>& rhs);
 
