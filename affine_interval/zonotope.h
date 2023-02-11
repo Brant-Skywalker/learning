@@ -2,7 +2,7 @@
 #define AFFINE_INTERVAL__ZONOTOPE_H_
 
 #include <unordered_map>
-#include <cmath>
+#include <numeric>
 #include <iostream>
 #include <ostream>
 #include <iomanip>
@@ -21,6 +21,7 @@ public:
     explicit Zonotope(const T& x0, const std::unordered_map<int, T>& xi);
     virtual ~Zonotope() = default;
 
+    Interval<T> getInterval();
 //    Zonotope operator+(const Zonotope& rhs) const;
 //    Zonotope operator-(const Zonotope& rhs) const;
 //    Zonotope operator*(const Zonotope& rhs) const;

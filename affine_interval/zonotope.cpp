@@ -20,3 +20,12 @@ std::ostream& operator<<(std::ostream& os, const Zonotope<U>& zonotope) {
 
 template<typename T>
 Zonotope<T>::Zonotope(const T& x0, const std::unordered_map<int, T>& xi) :x0_(x0), xi_(xi) {}
+
+template<typename T>
+Interval<T> Zonotope<T>::getInterval() {
+    T lo = x0_ - std::accumulate(xi_.begin(), xi_.end(), 0.,
+                                 [](const T& prev, const auto& elem) { return prev + elem.second; });
+    T hi = x0_ + std::accumulate(xi_.begin(), xi_.end(), 0.,
+                                 [](const T& prev, const auto& elem) { return prev + elem.second; });
+    return Interval<T>(lo, hi);
+}

@@ -45,5 +45,16 @@ int main() {
     std::cout << "Zonotope<double> z2 <-- z1 (Zonotope<double>)" << std::endl;
     std::cout << z2 << std::endl;
 
+    // 1 + 2 * eps1 + 30 * eps2 --> [-31, 33]
+    Zonotope<double> z3{1., {{1, 2.}, {2, 30.}}};
+
+    std::cout << std::endl;
+    std::cout << "Interval<double> z3" << std::endl;
+    std::cout << z3 << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "Interval<double> <-- z3 (Zonotope<double>)" << std::endl;
+    std::cout << z3.getInterval() << std::endl;
+
     return 0;
 }
