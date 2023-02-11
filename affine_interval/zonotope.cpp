@@ -59,13 +59,14 @@ Zonotope<T> Zonotope<T>::operator+(const Zonotope<T>& rhs) const {
 }
 
 template<typename T>
-Zonotope<T> Zonotope<T>::operator*(const double rhs) const {
+Zonotope<T> Zonotope<T>::operator*(const T& rhs) const {
     std::unordered_map<int, T> xi{xi_};
     std::for_each(xi.begin(), xi.end(), [rhs](auto& it) { it.second *= rhs; });
     return Zonotope{x0_ * rhs, xi};
 }
 
 template<typename U>
-Zonotope<U> operator*(const double lhs, const Zonotope<U>& rhs) {
+Zonotope<U> operator*(const U& lhs, const Zonotope<U>& rhs) {
     return rhs * lhs;
 }
+

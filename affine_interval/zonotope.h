@@ -16,6 +16,7 @@ public:
     T x0_{};
     std::unordered_map<int, T> xi_{};
 
+    // ctors and dtors.
     Zonotope() = default;
     explicit Zonotope(const Interval<T>& interval);
     explicit Zonotope(const T& x0, const std::unordered_map<int, T>& xi);
@@ -23,10 +24,10 @@ public:
 
     Interval<T> getInterval();
     Zonotope operator+(const Zonotope& rhs) const;
-    Zonotope operator*(double rhs) const;
+    Zonotope operator*(const T& rhs) const;
 
     template<typename U>
-    friend Zonotope<U> operator*(double lhs, const Zonotope<U>& rhs);
+    friend Zonotope<U> operator*(const U& lhs, const Zonotope<U>& rhs);
 
     template<typename U>
     friend std::ostream& operator<<(std::ostream& os, const Zonotope<U>& interval);
