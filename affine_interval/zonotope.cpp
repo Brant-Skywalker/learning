@@ -27,7 +27,7 @@ Interval<T> Zonotope<T>::getInterval() {
                                  [](const T& prev, const auto& elem) { return prev + elem.second; });
     T hi = x0_ + std::accumulate(xi_.begin(), xi_.end(), 0.,
                                  [](const T& prev, const auto& elem) { return prev + elem.second; });
-    return Interval<T>(lo, hi);
+    return Interval{lo, hi};
 }
 
 template<typename T>
@@ -55,5 +55,17 @@ Zonotope<T> Zonotope<T>::operator+(const Zonotope<T>& rhs) const {
         }
     }
 
-    return Zonotope<T>(x0, xi);
+    return Zonotope{x0, xi};
+}
+
+template<typename T>
+Zonotope<T> Zonotope<T>::operator*(const double rhs) const {
+    std::unordered_map<int, T> xi{xi_};
+    std::for_each(xi.begin(), xi.end(), [rhs](auto& it) { it.second *= rhs; });
+    return Zonotope{x0_ * rhs, xi};
+}
+
+template<typename U>
+Zonotope<U> operator*(const double lhs, const Zonotope<U>& rhs) {
+    return rhs * lhs;
 }

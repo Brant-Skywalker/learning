@@ -23,8 +23,10 @@ public:
 
     Interval<T> getInterval();
     Zonotope operator+(const Zonotope& rhs) const;
-//    Zonotope operator-(const Zonotope& rhs) const;
-//    Zonotope operator*(const Zonotope& rhs) const;
+    Zonotope operator*(double rhs) const;
+
+    template<typename U>
+    friend Zonotope<U> operator*(double lhs, const Zonotope<U>& rhs);
 
     template<typename U>
     friend std::ostream& operator<<(std::ostream& os, const Zonotope<U>& interval);

@@ -70,5 +70,13 @@ int main() {
     std::cout << "Zonotope<double> z1 + z3 + z4" << std::endl;
     std::cout << z1 + z3 + z4 << std::endl;
 
+    std::cout << std::endl;
+    std::cout << "Zonotope<double> z4 * 3." << std::endl;
+    std::cout << z4 * 3. << std::endl;
+
+    std::cout << std::endl;
+    std::cout << "Zonotope<double> 3. * z4" << std::endl;
+    std::cout << 4. * z4 << std::endl;
+
     return 0;
 }
