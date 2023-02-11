@@ -93,5 +93,9 @@ int main() {
     std::cout << "Affine<double> z6" << std::endl;
     std::cout << z6 << std::endl;  // Subscript should be 4.
 
+    std::cout << std::endl;
+    std::cout << "Affine<double> sigmoid(z6)" << std::endl;
+    std::cout << sigmoid(z6) << std::endl;
+
     return 0;
 }

@@ -115,3 +115,30 @@ Affine<T> Affine<T>::operator*(const Affine& rhs) const {
     return Affine{x0, xi};
 }
 
+template<typename T>
+Affine<T> Affine<T>::sigmoid() const {
+    T lo = getLo();
+    T hi = getHi();
+    T f_lo = 1. / (1. + std::exp(-lo));
+    T f_hi = 1. / (1. + std::exp(-hi));
+    T lambda_opt = std::min((1 - f_lo) * f_lo, (1 - f_hi) * f_hi);
+    T mu_1 = 0.5 * (f_hi + f_lo - lambda_opt * (hi + lo));
+    T mu_2 = 0.5 * (f_hi - f_lo - lambda_opt * (hi - lo));
+
+    Affine<T> res = *this * lambda_opt;
+    res.x0_ += mu_1;
+    res.xi_[i_++] = mu_2;
+
+    return res;
+}
+
+template<typename T>
+T Affine<T>::getLo() const {
+    return x0_ - getRad();
+}
+
+template<typename T>
+T Affine<T>::getHi() const {
+    return x0_ + getRad();
+}
+
