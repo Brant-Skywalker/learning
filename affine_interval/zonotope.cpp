@@ -29,3 +29,31 @@ Interval<T> Zonotope<T>::getInterval() {
                                  [](const T& prev, const auto& elem) { return prev + elem.second; });
     return Interval<T>(lo, hi);
 }
+
+template<typename T>
+Zonotope<T> Zonotope<T>::operator+(const Zonotope<T>& rhs) const {
+    T x0 = x0_ + rhs.x0_;
+    std::unordered_map<int, T> xi{};
+
+    for (const auto& [k, v] : xi_) {
+        if (rhs.xi_.end() != rhs.xi_.find(k)) {
+            if (0. != v + rhs.xi_.at(k)) {
+                xi[k] = v + rhs.xi_.at(k);
+            }
+        } else {
+            xi[k] = v;
+        }
+    }
+
+    for (const auto& [k, v] : rhs.xi_) {
+        if (xi_.end() != xi_.find(k)) {
+            if (0. != v + xi_.at(k)) {
+                xi[k] = v + xi_.at(k);
+            }
+        } else {
+            xi[k] = v;
+        }
+    }
+
+    return Zonotope<T>(x0, xi);
+}

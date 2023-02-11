@@ -22,7 +22,7 @@ public:
     virtual ~Zonotope() = default;
 
     Interval<T> getInterval();
-//    Zonotope operator+(const Zonotope& rhs) const;
+    Zonotope operator+(const Zonotope& rhs) const;
 //    Zonotope operator-(const Zonotope& rhs) const;
 //    Zonotope operator*(const Zonotope& rhs) const;
 
