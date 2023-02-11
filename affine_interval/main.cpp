@@ -1,8 +1,8 @@
 #include <iostream>
 #include "interval.h"
 #include "interval.cpp"
-#include "zonotope.h"
-#include "zonotope.cpp"
+#include "affine.h"
+#include "affine.cpp"
 
 int main() {
     Interval<double> i1{-2.3, 4.8};
@@ -33,64 +33,64 @@ int main() {
     std::cout << "Interval<double> exp" << std::endl;
     std::cout << exp(i1) << std::endl;
 
-    Zonotope<double> z1{i1};
+    Affine<double> z1{i1};
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z1 <-- i1 (Interval<double>)" << std::endl;
+    std::cout << "Affine<double> z1 <-- i1 (Interval<double>)" << std::endl;
     std::cout << z1 << std::endl;
 
-    Zonotope<double> z2{z1};
+    Affine<double> z2{z1};
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z2 <-- z1 (Zonotope<double>)" << std::endl;
+    std::cout << "Affine<double> z2 <-- z1 (Affine<double>)" << std::endl;
     std::cout << z2 << std::endl;
 
     // 1 + 2 * eps1 + 30 * eps2 --> [-31, 33]
-    Zonotope<double> z3{1., {{1, 2.}, {2, 30.}}};
+    Affine<double> z3{1., {{1, 2.}, {2, 30.}}};
 
     std::cout << std::endl;
     std::cout << "Interval<double> z3" << std::endl;
     std::cout << z3 << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Interval<double> <-- z3 (Zonotope<double>)" << std::endl;
+    std::cout << "Interval<double> <-- z3 (Affine<double>)" << std::endl;
     std::cout << z3.getInterval() << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z1 + z3" << std::endl;
+    std::cout << "Affine<double> z1 + z3" << std::endl;
     std::cout << z1 + z3 << std::endl;
 
-    Zonotope<double> z4{1., {{1, -5.55}, {2, -10.}}};
+    Affine<double> z4{1., {{1, -5.55}, {2, -10.}}};
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z4" << std::endl;
+    std::cout << "Affine<double> z4" << std::endl;
     std::cout << z4 << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z1 + z3 + z4" << std::endl;
+    std::cout << "Affine<double> z1 + z3 + z4" << std::endl;
     std::cout << z1 + z3 + z4 << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z4 * 3." << std::endl;
+    std::cout << "Affine<double> z4 * 3." << std::endl;
     std::cout << z4 * 3. << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> 3. * z4" << std::endl;
+    std::cout << "Affine<double> 3. * z4" << std::endl;
     std::cout << 4. * z4 << std::endl;
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z4.getRad() ==> " << z4.getRad() << std::endl;
+    std::cout << "Affine<double> z4.getRad() ==> " << z4.getRad() << std::endl;
 
-    Zonotope<double> z5{1., {{1, 2.}, {2, 3.}}};
+    Affine<double> z5{1., {{1, 2.}, {2, 3.}}};
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z5 * z5" << std::endl;
+    std::cout << "Affine<double> z5 * z5" << std::endl;
     std::cout << z5 * z5 << std::endl;
 
-    Zonotope<double> z6{Interval<double>{1, 5}};
+    Affine<double> z6{Interval<double>{1, 5}};
 
     std::cout << std::endl;
-    std::cout << "Zonotope<double> z6" << std::endl;
+    std::cout << "Affine<double> z6" << std::endl;
     std::cout << z6 << std::endl;  // Subscript should be 4.
 
     return 0;

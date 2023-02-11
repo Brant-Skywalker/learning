@@ -1,16 +1,16 @@
-#include "zonotope.h"
+#include "affine.h"
 
 template<typename T>
-Zonotope<T>::Zonotope(const Interval<T>& interval) {
+Affine<T>::Affine(const Interval<T>& interval) {
     x0_ = (interval.hi_ - interval.lo_) / 2. + interval.lo_;
     xi_[i_++] = x0_ - interval.lo_;
 }
 
 template<typename U>
-std::ostream& operator<<(std::ostream& os, const Zonotope<U>& zonotope) {
-    os << std::setw(10) << std::right << "x0_: " << std::setw(10) << std::right << zonotope.x0_ << std::setw(10)
+std::ostream& operator<<(std::ostream& os, const Affine<U>& affine) {
+    os << std::setw(10) << std::right << "x0_: " << std::setw(10) << std::right << affine.x0_ << std::setw(10)
        << std::right << " xi_: " << "{  ";
-    for (const auto& [k, v] : zonotope.xi_) {
+    for (const auto& [k, v] : affine.xi_) {
         os << k << ": " << v << ", ";
     }
     os << " }";
@@ -19,18 +19,18 @@ std::ostream& operator<<(std::ostream& os, const Zonotope<U>& zonotope) {
 }
 
 /*!
- * @brief If the largest subscript of the noise term in the input zonotope is greater than the static variable `i_`,
- * update `i_`.
+ * @brief If the largest subscript of the noise term in the input affine expression is greater
+ * than the static variable `i_`, we update `i_`.
  */
 template<typename T>
-Zonotope<T>::Zonotope(const T& x0, const std::unordered_map<int, T>& xi) :x0_(x0), xi_(xi) {
+Affine<T>::Affine(const T& x0, const std::unordered_map<int, T>& xi) :x0_(x0), xi_(xi) {
     int i = std::max_element(xi.begin(), xi.end(),
                              [](const auto& l, const auto& r) { return l.first < r.second; })->first + 1;
     i_ = i > i_ ? i : i_;
 }
 
 template<typename T>
-Interval<T> Zonotope<T>::getInterval() const {
+Interval<T> Affine<T>::getInterval() const {
     T lo = x0_ - std::accumulate(xi_.begin(), xi_.end(), 0.,
                                  [](const T& prev, const auto& elem) { return prev + elem.second; });
     T hi = x0_ + std::accumulate(xi_.begin(), xi_.end(), 0.,
@@ -39,7 +39,7 @@ Interval<T> Zonotope<T>::getInterval() const {
 }
 
 template<typename T>
-Zonotope<T> Zonotope<T>::operator+(const Zonotope<T>& rhs) const {
+Affine<T> Affine<T>::operator+(const Affine<T>& rhs) const {
     T x0 = x0_ + rhs.x0_;
     std::unordered_map<int, T> xi{};
 
@@ -63,30 +63,30 @@ Zonotope<T> Zonotope<T>::operator+(const Zonotope<T>& rhs) const {
         }
     }
 
-    return Zonotope{x0, xi};
+    return Affine{x0, xi};
 }
 
 template<typename T>
-Zonotope<T> Zonotope<T>::operator*(const T& rhs) const {
+Affine<T> Affine<T>::operator*(const T& rhs) const {
     std::unordered_map<int, T> xi{xi_};
     std::for_each(xi.begin(), xi.end(), [rhs](auto& it) { it.second *= rhs; });
-    return Zonotope{x0_ * rhs, xi};
+    return Affine{x0_ * rhs, xi};
 }
 
 template<typename U>
-Zonotope<U> operator*(const U& lhs, const Zonotope<U>& rhs) {
+Affine<U> operator*(const U& lhs, const Affine<U>& rhs) {
     return rhs * lhs;
 }
 
 template<typename T>
-T Zonotope<T>::getRad() const {
+T Affine<T>::getRad() const {
     using std::abs;
     return std::accumulate(xi_.begin(), xi_.end(), 0.,
                            [](const T& prev, const auto& elem) { return prev + abs(elem.second); });
 }
 
 template<typename T>
-Zonotope<T> Zonotope<T>::operator*(const Zonotope& rhs) const {
+Affine<T> Affine<T>::operator*(const Affine& rhs) const {
     T x0 = x0_ * rhs.x0_;
     std::unordered_map<int, T> xi{};
     auto max_l = std::max_element(xi_.begin(), xi_.end(),
@@ -112,6 +112,6 @@ Zonotope<T> Zonotope<T>::operator*(const Zonotope& rhs) const {
     }
     xi[i_++] = getRad() * rhs.getRad();
 
-    return Zonotope{x0, xi};
+    return Affine{x0, xi};
 }
 

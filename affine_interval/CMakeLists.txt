@@ -7,6 +7,6 @@ add_executable(affine_interval
         main.cpp
         interval.h
         interval.cpp
-        zonotope.h
-        zonotope.cpp
+        affine.h
+        affine.cpp
         )
