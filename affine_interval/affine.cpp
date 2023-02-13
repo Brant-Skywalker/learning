@@ -90,9 +90,9 @@ Affine<T> Affine<T>::operator*(const Affine& rhs) const {
     T x0 = x0_ * rhs.x0_;
     std::unordered_map<int, T> xi{};
     auto max_l = std::max_element(xi_.begin(), xi_.end(),
-                                  [](const auto& l, const auto& r) { return l.first < r.second; });
+                                  [](const auto& l, const auto& r) { return l.first < r.first; });
     auto max_r = std::max_element(rhs.xi_.begin(), rhs.xi_.end(),
-                                  [](const auto& l, const auto& r) { return l.first < r.second; });
+                                  [](const auto& l, const auto& r) { return l.first < r.first; });
     int max_i = std::max(max_l->first, max_r->first);
 
     for (int i = 1; i <= max_i; ++i) {
@@ -106,7 +106,7 @@ Affine<T> Affine<T>::operator*(const Affine& rhs) const {
         } else if (xi_.end() != it_l && rhs.xi_.end() != it_r) {
             v = xi_.at(i) * rhs.x0_ + rhs.xi_.at(i) * x0_;
         }
-        if (0. != v) {
+        if (T{} != v) {
             xi[i] = v;
         }
     }
